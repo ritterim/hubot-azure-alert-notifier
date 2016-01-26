@@ -16,7 +16,6 @@ Find a bug? Open an issue or submit a pull request!
 
 MIT © Ritter Insurance Marketing
 
-
 [npm-image]: https://badge.fury.io/js/hubot-azure-alert-notifier.svg
 [npm-url]: https://npmjs.org/package/hubot-azure-alert-notifier
 [travis-image]: https://travis-ci.org//hubot-azure-alert-notifier.svg?branch=master
