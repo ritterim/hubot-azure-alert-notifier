@@ -1,0 +1,3 @@
+The activatedWithMetrics.json fixture is from https://azure.microsoft.com/en-us/documentation/articles/insights-webhooks-alerts/.
+
+The others are similar but adapted based on the information at that URL.

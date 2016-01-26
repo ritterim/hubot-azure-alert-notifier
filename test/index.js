@@ -1,49 +1,122 @@
 'use strict';
 
-var Robot = require('hubot/src/robot');
-var TextMessage = require("hubot/src/message").TextMessage;
-var expect = require('chai').expect;
+process.env.EXPRESS_PORT = 13721;
 
-describe('hubot', function(){
+let Helper = require('hubot-test-helper');
+let helper = new Helper('../src/index.js');
 
-    var robot;
-    var user;
+let http = require('http');
+let expect = require('chai').expect;
 
-    beforeEach(()=> {
+let activatedWithMetrics = JSON.stringify(require('./fixtures/activatedWithMetrics'));
+let activatedWithoutMetrics = JSON.stringify(require('./fixtures/activatedWithoutMetrics'));
 
-        // create new robot, without http, using the mock adapter
-        robot = new Robot(null, 'mock-adapter', false, 'Hubot');
+let resolvedWithMetrics = JSON.stringify(require('./fixtures/resolvedWithMetrics'));
+let resolvedWithoutMetrics = JSON.stringify(require('./fixtures/resolvedWithoutMetrics'));
 
-        // configure user
-        user = robot.brain.userForId('1', {
-            name: 'mocha',
-            room: '#mocha'
-        });
+let token = 'the-token';
+let postOptions = {
+    hostname: 'localhost',
+    port: process.env.EXPRESS_PORT,
+    path: `/hubot/azure-alert/general?token=${token}`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+};
 
-        robot.adapter.on('connected', () => {
+describe('hubot', () => {
+    let room;
 
-            // load the module under test and configure it for the
-            // robot.  This is in place of external-scripts
-            require('../src/index')(robot);
+    beforeEach(() => {
+        process.env.HUBOT_AZURE_ALERTS_TOKEN = token;
 
-        });
-
-        robot.run();
+        room = helper.createRoom();
     });
 
-    afterEach(()=> {
-        robot.shutdown();
+    afterEach(() => {
+        room.destroy();
     });
 
-    it('should send a message when hearing hello', (done) => {
+    it('should return 500 when HUBOT_AZURE_ALERTS_TOKEN is not configured', (done) => {
+        delete process.env.HUBOT_AZURE_ALERTS_TOKEN;
 
-        robot.adapter.on('send', (envelope, strings) => {
-            expect(strings[0]).to.match(/it\'s working/);
+        let req = http.request(postOptions, (res) => {
+            expect(res.statusCode).to.equal(500);
             done();
         });
 
-       // Send a message to Hubot
-        robot.adapter.receive(new TextMessage(user, 'hello'));
+        req.write(activatedWithMetrics);
+        req.end();
     });
 
+    it('should return 401 when HUBOT_AZURE_ALERTS_TOKEN does not match environment variable', (done) => {
+        process.env.HUBOT_AZURE_ALERTS_TOKEN = 'different-token';
+
+        let req = http.request(postOptions, (res) => {
+            expect(res.statusCode).to.equal(401);
+            done();
+        });
+
+        req.write(activatedWithMetrics);
+        req.end();
+    });
+
+    it('should return 200 when HUBOT_AZURE_ALERTS_TOKEN matches environment variable', (done) => {
+        let req = http.request(postOptions, (res) => {
+            expect(res.statusCode).to.equal(200);
+            done();
+        });
+
+        req.write(activatedWithMetrics);
+        req.end();
+    });
+
+    it('should display expected message in requested channel when non-metric alert is activated', (done) => {
+        let req = http.request(postOptions, (res) => {
+            expect(room.messages).to.eql([
+                ['hubot', "Microsoft Azure alert: 'ruleName1' activated for mysite1 in centralus! https://portal.azure.com/#resource/subscriptions/s1/resourceGroups/useast/providers/microsoft.foo/sites/mysite1"]
+            ]);
+            done();
+        });
+
+        req.write(activatedWithoutMetrics);
+        req.end();
+    });
+
+    it('should display expected message in requested channel when metric alert is activated', (done) => {
+        let req = http.request(postOptions, (res) => {
+            expect(room.messages).to.eql([
+                ['hubot', "Microsoft Azure alert: 'ruleName1' activated for mysite1 in centralus! (Requests Count of 10 is GreaterThanOrEqual threshold of 10) https://portal.azure.com/#resource/subscriptions/s1/resourceGroups/useast/providers/microsoft.foo/sites/mysite1"]
+            ]);
+            done();
+        });
+
+        req.write(activatedWithMetrics);
+        req.end();
+    });
+
+    it('should display expected message in requested channel when non-metric alert is resolved', (done) => {
+        let req = http.request(postOptions, (res) => {
+            expect(room.messages).to.eql([
+                ['hubot', "Microsoft Azure alert: 'ruleName1' resolved for mysite1 in centralus!"]
+            ]);
+            done();
+        });
+
+        req.write(resolvedWithoutMetrics);
+        req.end();
+    });
+
+    it('should display expected message in requested channel when metric alert is resolved', (done) => {
+      let req = http.request(postOptions, (res) => {
+          expect(room.messages).to.eql([
+              ['hubot', "Microsoft Azure alert: 'ruleName1' resolved for mysite1 in centralus!"]
+          ]);
+          done();
+      });
+
+      req.write(resolvedWithMetrics);
+      req.end();
+    });
 });
