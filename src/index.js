@@ -1,22 +1,20 @@
-/**
-* Description:
-*   Notify for configured alert webhooks configured on Microsoft Azure.
-* Dependencies:
-*   None
-* Configuration:
-*   HUBOT_AZURE_ALERTS_TOKEN
-* Commands:
-*   None
-* Notes:
-*   This script listens for webhooks configured on the Microsoft Azure portal.
-*   Configure the Microsoft Azure portal alert webhook to submit to:
-*   https://example.com/hubot/azure-alert/general?token=HUBOT_AZURE_ALERTS_TOKEN_VALUE_HERE
-*
-*   See https://azure.microsoft.com/en-us/documentation/articles/insights-webhooks-alerts/
-*   for more details.
-* Author:
-*   ritterim
-*/
+// Description:
+//   Notify for configured alert webhooks configured on Microsoft Azure.
+// Dependencies:
+//   None
+// Configuration:
+//   HUBOT_AZURE_ALERTS_TOKEN
+// Commands:
+//   None
+// Notes:
+//   This script listens for webhooks configured on the Microsoft Azure portal.
+//   Configure the Microsoft Azure portal alert webhook to submit to:
+//   https://example.com/hubot/azure-alert/general?token=HUBOT_AZURE_ALERTS_TOKEN_VALUE_HERE
+//
+//   See https://azure.microsoft.com/en-us/documentation/articles/insights-webhooks-alerts/
+//   for more details.
+// Author:
+//   ritterim
 
 'use strict';
 
