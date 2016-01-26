@@ -1,7 +1,7 @@
 {
   "name": "hubot-azure-alert-notifier",
   "version": "0.0.0",
-  "description": "Notify for configured alert webhooks configured on Microsoft Azure.",
+  "description": "Notify for configured alert webhooks set on Microsoft Azure.",
   "main": "dist/index.js",
   "license": "MIT",
   "author": {
