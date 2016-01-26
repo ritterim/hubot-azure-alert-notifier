@@ -38,28 +38,35 @@ module.exports = (robot) => {
             let status = req.body.status.toLowerCase();
             let message;
 
-            switch (status) {
-                case 'activated':
+            switch (req.body.status) {
+                case 'Activated':
                     // metricName, metricUnit, metricValue, threshold, windowSize, timeAggregation, operator
                     // only apply to metric alerts.
                     let cond = ctx.condition;
                     let metricText = cond.metricName
-                      ? `(${cond.metricName} ${cond.metricUnit} of ${Math.round(cond.metricValue * 100) / 100} is ${cond.operator} threshold of ${cond.threshold}) `
-                      : '';
+                        ? `(${cond.metricName} ${cond.metricUnit} of ${Math.round(cond.metricValue * 100) / 100} is ${cond.operator} threshold of ${cond.threshold}) `
+                        : '';
 
-                    message = `Microsoft Azure alert: '${ctx.name}' ${status} for ${ctx.resourceName} in ${ctx.resourceRegion}! ${metricText}${ctx.portalLink}`;
+                    message = `Microsoft Azure alert: '${ctx.name}' ${req.body.status.toLowerCase()} for ${ctx.resourceName} in ${ctx.resourceRegion}! ${metricText}${ctx.portalLink}`;
+
+                    robot.send({ room: req.params.room }, message);
+                    res.send('ok');
 
                     break;
-                case 'resolved':
-                    message = `Microsoft Azure alert: '${ctx.name}' ${status} for ${ctx.resourceName} in ${ctx.resourceRegion}!`;
+                case 'Resolved':
+                    message = `Microsoft Azure alert: '${ctx.name}' ${req.body.status.toLowerCase()} for ${ctx.resourceName} in ${ctx.resourceRegion}!`;
+
+                    robot.send({ room: req.params.room }, message);
+                    res.send('ok');
+
                     break;
                 default:
-                    throw new Error('Unexpected status specified in Azure alert message.');
+                    robot.logger.warning(`Unexpected status specified in Azure alert message: '${req.body.status}'.`);
+                    res.status(400);
+                    res.send('Unauthorized');
             }
 
-            robot.send({ room: req.params.room }, message);
 
-            res.send('ok');
         }
     });
 };

@@ -14,6 +14,8 @@ let activatedWithoutMetrics = JSON.stringify(require('./fixtures/activatedWithou
 let resolvedWithMetrics = JSON.stringify(require('./fixtures/resolvedWithMetrics'));
 let resolvedWithoutMetrics = JSON.stringify(require('./fixtures/resolvedWithoutMetrics'));
 
+let unexpectedStatus = JSON.stringify(require('./fixtures/unexpectedStatus'));
+
 let token = 'the-token';
 let postOptions = {
     hostname: 'localhost',
@@ -109,14 +111,24 @@ describe('hubot', () => {
     });
 
     it('should display expected message in requested channel when metric alert is resolved', (done) => {
-      let req = http.request(postOptions, (res) => {
-          expect(room.messages).to.eql([
-              ['hubot', "Microsoft Azure alert: 'ruleName1' resolved for mysite1 in centralus!"]
-          ]);
-          done();
-      });
+        let req = http.request(postOptions, (res) => {
+            expect(room.messages).to.eql([
+                ['hubot', "Microsoft Azure alert: 'ruleName1' resolved for mysite1 in centralus!"]
+            ]);
+            done();
+        });
 
-      req.write(resolvedWithMetrics);
-      req.end();
+        req.write(resolvedWithMetrics);
+        req.end();
+    });
+
+    it('should return 400 for unexpected status', (done) => {
+        let req = http.request(postOptions, (res) => {
+            expect(res.statusCode).to.equal(400);
+            done();
+        });
+
+        req.write(unexpectedStatus);
+        req.end();
     });
 });
