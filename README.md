@@ -1,12 +1,18 @@
 # hubot-azure-alert-notifier
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> Notify for configured alert webhooks configured on Microsoft Azure.
+> Notify for configured alert webhooks set on Microsoft Azure.
 
 ```bash
 npm install hubot-azure-alert-notifier
 ```
 
-## Licence
+## Contributing
+
+Have an idea? Let's talk about it in an issue!
+
+Find a bug? Open an issue or submit a pull request!
+
+## License
 
 MIT © Ritter Insurance Marketing
 
