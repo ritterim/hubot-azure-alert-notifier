@@ -18,7 +18,7 @@ MIT © Ritter Insurance Marketing
 
 [npm-image]: https://badge.fury.io/js/hubot-azure-alert-notifier.svg
 [npm-url]: https://npmjs.org/package/hubot-azure-alert-notifier
-[travis-image]: https://travis-ci.org//hubot-azure-alert-notifier.svg?branch=master
-[travis-url]: https://travis-ci.org//hubot-azure-alert-notifier
-[daviddm-image]: https://david-dm.org//hubot-azure-alert-notifier.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org//hubot-azure-alert-notifier
+[travis-image]: https://travis-ci.org/ritterim/hubot-azure-alert-notifier.svg?branch=master
+[travis-url]: https://travis-ci.org/ritterim/hubot-azure-alert-notifier
+[daviddm-image]: https://david-dm.org/ritterim/hubot-azure-alert-notifier.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/ritterim/hubot-azure-alert-notifier
