@@ -1,4 +1,12 @@
 language: node_js
 node_js:
-  - v5
-  - v4
+- v5
+- v4
+deploy:
+  provider: npm
+  email: tech@ritterim.com
+  api_key:
+    secure: v+O75z4ADyDrhQahkq3zUzstD/qbcVnFN6zTW8ngqcmyyaNyJeKh6Da+S9l0/yAj3DuVHEykt7aqG9WLDdhuEEIv9IEFdtv3X1XSzYPk/3Hx7ShAibTyT+iUb5c4lSKu850wnWVZPPwY46ZclZMxjJik0my6h5xXgdhYIZstCr7kLAqvRuopuvtvNhYpwZBrk6LmJG0dlrsV8qZ1hPkKXW9iVqiZtKTbLHlozmFw6JlnZVL3AEevpruKoBHO5XimhQu7keed2KVvq5TKBAzBNBG/pJ2zZzgDaZwW0DeZ08Xb3EuoActwimlhbFR03DF5E4UwtmG2wmy4apqV3wuiJ2KeSVvhjztRL1owIWcx9KZ7KjoDRFMEMA3hfw9x+VULWca2lN0WbEYjMrO92lJbPRWM6LfYDIV9tJR5B7//8RX+wiP80A+O5aX0fTkEFiBIrYmWiTslOAtjOaDVhPb6z1fZZFWOdBMdzzmhHoVstXBhaZ+gafhqhSblgkG9p6G66DZdFCjGHWE04D/UFkzY6DWljNQxsr71jP0sRi51ri9q1ma8IhpdSvrKoRZ1ADuhZUZQu9gUuiU0jHBmI58r7rvGGJ2wrxWBJFgCA4gm11PaRY9cWSBAFxfiYsxOD0AL/842Lqo21tnjc/db46HyD7Qd3johCukIThRKs9A9tkw=
+  on:
+    tags: true
+    repo: ritterim/hubot-azure-alert-notifier
