@@ -20,7 +20,7 @@ Find a bug? Open an issue or submit a pull request. For code contributions, plea
 
 ## Releasing
 
-Update the version in [package.json](https://github.com/ritterim/hubot-azure-alert-notifier/blob/master/package.json) and create a matching release on GitHub *(please follow the tag pattern as the other releases)*. The new release is published automatically to npm as [hubot-azure-alert-notifier][npm-url] by Travis CI by using tags.
+Update the version in [package.json](https://github.com/ritterim/hubot-azure-alert-notifier/blob/master/package.json) and create a matching release on GitHub *(please follow the tag pattern as the other releases)*. The new release is published automatically to npm as [hubot-azure-alert-notifier][npm-url] by Travis CI when tags are applied.
 
 ## License
 
